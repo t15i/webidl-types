@@ -1,6 +1,11 @@
 import type { Type } from "@t15i/webspecs/webidl";
 import { typeRegistry } from "./registry";
 
+function isTypeT<T extends Type>(raw: unknown, T: T): raw is T {
+  const TT = raw as Type;
+  return typeRegistry.getId(TT) !== undefined && TT.name === T.name;
+}
+
 /**
  * Resolves the context Type for a Type call.
  *
@@ -31,7 +36,5 @@ export function getContextType<T extends Type>(
   receiver: unknown,
   defaultType: T,
 ): T {
-  return typeRegistry.getId(receiver as Type) !== undefined
-    ? (receiver as T)
-    : defaultType;
+  return isTypeT(receiver, defaultType) ? receiver : defaultType;
 }
