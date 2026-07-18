@@ -6,4 +6,8 @@ build
 
 # Vite
 dist
+
+# Vitest
+.vitest-attachments
+__screenshots__
 coverage

@@ -1,4 +1,4 @@
-# lib-typescript-template
+# @t15i/webidl-types
 
 > **Warning!** You may use this template as a general reference for 
 structuring and configuring your repository, but please do **not** use it as 
@@ -38,7 +38,7 @@ Template provides:
 
 Please make sure to:
 
-* [ ] Change all occurrences of `lib-typescript-template` in `package.json`, 
+* [ ] Change all occurrences of `@t15i/webidl-types` in `package.json`, 
 `package-lock.json`, and `vite.config.js` with the name of your repository;
 
 * [ ] Change the name, author, license, description, and keywords 
