@@ -44,22 +44,15 @@ export default {
       entry: "./lib/index.ts",
     },
     rolldownOptions: {
+      external: [/^@t15i\/webspecs(\/.*)?$/],
       output: [
         {
-          name: "lib-typescript-template",
+          name: "@t15i/webidl-types",
           format: "es",
           dir: "dist/lib",
           entryFileNames: "[name].js",
           preserveModules: true,
           minify: false,
-        },
-        {
-          name: "lib-typescript-template",
-          dir: "dist/cdn",
-          format: "iife",
-          entryFileNames: "index.min.js",
-          minify: true,
-          extend: true,
         },
       ],
     },

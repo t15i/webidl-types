@@ -1,21 +1,27 @@
 {
-  "name": "@t15i/lib-typescript-template",
+  "name": "@t15i/webidl-types",
   "type": "module",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "TypeScript implementations of WebIDL types",
+  "keywords": [
+    "webidl",
+    "types",
+    "type-conversion",
+    "converter",
+    "ecmascript-binding",
+    "whatwg",
+    "w3c"
+  ],
   "author": "Aleksandr Boiarnikov <dev@gmvr.pw> (https://gmvr.pw)",
   "license": "MIT",
-  "homepage": "https://github.com/t15i/lib-typescript-template#README",
+  "homepage": "https://github.com/t15i/webidl-types#README",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/t15i/lib-typescript-template.git"
+    "url": "git+https://github.com/t15i/webidl-types.git"
   },
   "bugs": {
-    "url": "https://github.com/t15i/lib-typescript-template/issues"
+    "url": "https://github.com/t15i/webidl-types/issues"
   },
-  "unpkg": "./dist/cdn/index.min.js",
-  "jsdelivr": "./dist/cdn/index.min.js",
   "exports": {
     "types": "./dist/types/index.d.ts",
     "import": "./dist/lib/index.js",
@@ -35,7 +41,7 @@
     "ci:lint:tests": "eslint --max-warnings 1 test",
     "ci:format": "prettier --list-different lib test",
     "ci:format:lib": "prettier --list-different lib",
-    "ci:format:tests": "prettier --list-different tests",
+    "ci:format:tests": "prettier --list-different test",
     "ci:typecheck": "npm run ci:typecheck:lib && npm run ci:typecheck:tests",
     "ci:typecheck:lib": "tsc -p lib/tsconfig.json",
     "ci:typecheck:tests": "tsc -p test/tsconfig.json",
@@ -44,6 +50,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@t15i/webspecs": "^0.9.0",
     "@vitest/browser-playwright": "^4.1.4",
     "@vitest/coverage-istanbul": "^4.1.4",
     "eslint": "^10.2.0",
@@ -56,5 +63,11 @@
     "vite": "^8.0.8",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.1.4"
+  },
+  "peerDependencies": {
+    "@t15i/webspecs": "^0.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
