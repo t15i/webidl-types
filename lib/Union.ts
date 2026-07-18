@@ -16,6 +16,7 @@ import {
   type TypeMap,
   type UnionType,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getUnionId(memberTypes: readonly Type[]): string {
@@ -74,7 +75,7 @@ export function Union<Ts extends readonly Type[]>(
 
   const UnionT = Object.defineProperties(
     function Union(this: UnionType<Ts[number]> | void, value: unknown) {
-      return asUnion.call(this ?? UnionT, value);
+      return asUnion.call(getContextType(this, UnionT), value);
     },
     {
       memberTypes: {

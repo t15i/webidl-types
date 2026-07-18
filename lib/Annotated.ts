@@ -4,6 +4,7 @@ import {
   type Type,
   type TypeExtendedAttributes,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getAnnotatedId(
@@ -28,7 +29,7 @@ export function Annotated<T extends Type>(
 
   const AnnotatedT: AnnotatedType<T> = Object.defineProperties(
     function Annotated(this: AnnotatedType<T> | void, value: unknown) {
-      return innerType.call(this ?? AnnotatedT, value);
+      return innerType.call(getContextType(this, AnnotatedT), value);
     },
     {
       name: {

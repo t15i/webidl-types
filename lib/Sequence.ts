@@ -4,6 +4,7 @@ import {
   type SequenceType,
   type Type,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getSequenceId(innerType: Type): string {
@@ -19,7 +20,7 @@ export function Sequence<T extends Type>(T: T): SequenceType<T> {
 
   const SequenceT: SequenceType<T> = Object.defineProperty(
     function Sequence(this: SequenceType<T> | void, value: unknown) {
-      return asSequence.call(this ?? SequenceT, value);
+      return asSequence.call(getContextType(this, SequenceT), value);
     },
     "T",
     {
