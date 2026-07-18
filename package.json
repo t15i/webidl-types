@@ -1,7 +1,7 @@
 {
   "name": "@t15i/webidl-types",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript implementations of WebIDL types",
   "keywords": [
     "webidl",
