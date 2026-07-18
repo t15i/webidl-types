@@ -2,8 +2,16 @@
   "name": "@t15i/webidl-types",
   "type": "module",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "TypeScript implementations of WebIDL types",
+  "keywords": [
+    "webidl",
+    "types",
+    "type-conversion",
+    "converter",
+    "ecmascript-binding",
+    "whatwg",
+    "w3c"
+  ],
   "author": "Aleksandr Boiarnikov <dev@gmvr.pw> (https://gmvr.pw)",
   "license": "MIT",
   "homepage": "https://github.com/t15i/webidl-types#README",
