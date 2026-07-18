@@ -79,7 +79,12 @@ describe("Type as a method - context resolution", () => {
 
 describe("getContextType", () => {
   test("returns the receiver when it is a registered Type", () => {
-    expect(getContextType(Long, Boolean)).toBe(Long);
+    const ClampedLong = Annotated({ [Clamp]: null }, Long);
+    expect(getContextType(ClampedLong, Long)).toBe(ClampedLong);
+  });
+
+  test("falls back to the default for different type names", () => {
+    expect(getContextType(Boolean, Long)).toBe(Long);
   });
 
   test("falls back to the default for a plain object receiver", () => {
