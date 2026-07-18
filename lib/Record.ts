@@ -6,6 +6,7 @@ import {
   type RecordType,
   type Type,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getRecordId(K: Type<string>, V: Type): string {
@@ -24,7 +25,7 @@ export function Record<K extends RecordKeyType, V extends Type>(
 
   const RecordKV: RecordType<K, V> = Object.defineProperties(
     function Record(this: RecordType<K, V> | void, value: unknown) {
-      return asRecord.call(this ?? RecordKV, value);
+      return asRecord.call(getContextType(this, RecordKV), value);
     },
     {
       K: {

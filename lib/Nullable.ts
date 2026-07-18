@@ -5,6 +5,7 @@ import {
   type NullableType,
   type Type,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getNullableId(innerType: Type): string {
@@ -20,7 +21,7 @@ export function Nullable<T extends Type>(innerType: T): NullableType<T> {
 
   const NullableT: NullableType<T> = Object.defineProperty(
     function Nullable(this: NullableType<T> | void, value: unknown) {
-      return asNullable.call(this ?? NullableT, value);
+      return asNullable.call(getContextType(this, NullableT), value);
     },
     "innerType",
     {

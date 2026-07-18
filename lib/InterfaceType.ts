@@ -2,6 +2,7 @@ import {
   asInterfaceType,
   type InterfaceType as InterfaceTypeSpec,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getInterfaceTypeId(
@@ -21,7 +22,7 @@ export function InterfaceType<T>(
 
   const InterfaceT: InterfaceTypeSpec<T> = Object.defineProperty(
     function InterfaceType(this: InterfaceTypeSpec<T> | void, value: unknown) {
-      return asInterfaceType.call(this ?? InterfaceT, value);
+      return asInterfaceType.call(getContextType(this, InterfaceT), value);
     },
     "T",
     {

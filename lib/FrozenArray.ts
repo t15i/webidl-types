@@ -4,6 +4,7 @@ import {
   type FrozenArrayType,
   type Type,
 } from "@t15i/webspecs/webidl";
+import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
 export function getFrozenArrayId(innerType: Type): string {
@@ -19,7 +20,7 @@ export function FrozenArray<T extends Type>(T: T): FrozenArrayType<T> {
 
   const FrozenArrayT: FrozenArrayType<T> = Object.defineProperty(
     function FrozenArray(this: FrozenArrayType<T> | void, value: unknown) {
-      return asFrozenArray.call(this ?? FrozenArrayT, value);
+      return asFrozenArray.call(getContextType(this, FrozenArrayT), value);
     },
     "T",
     {
