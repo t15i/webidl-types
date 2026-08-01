@@ -9,7 +9,7 @@ import {
 import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
-export function getRecordId(K: Type<string>, V: Type): string {
+export function getRecordId(K: RecordKeyType, V: Type): string {
   return `${RECORD_TYPE_NAME}<${typeRegistry.getId(K)}, ${typeRegistry.getId(V)}>`;
 }
 
