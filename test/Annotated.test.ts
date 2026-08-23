@@ -5,8 +5,12 @@
  *   copy of `extendedAttributes` onto the produced Type, and that
  *   the produced Type reuses the inner Type's `name` (rather than
  *   being renamed to "Annotated").
- * - "caching": that the registry id folds in the attribute keys, so
- *   Types with different attribute sets are cached separately.
+ * - "id": that the registry id renders each extended attribute as
+ *   `Name` (valueless) or `Name=value`, and orders them
+ *   lexicographically so that authoring order does not matter.
+ * - "caching": that the registry id folds in the attribute keys and
+ *   their values, so Types with different attribute sets are cached
+ *   separately while a reordered but equal set is not.
  * - "validation wiring": that a `validateAnnotatedInnerType` failure
  *   is re-thrown as a TypeError prefixed with the would-be type id,
  *   with the original error preserved as `cause`. The rules of
@@ -18,8 +22,26 @@
  */
 import { describe, expect, test } from "vitest";
 
-import { Clamp, EnforceRange } from "@t15i/webspecs/webidl";
+import {
+  AllowResizable,
+  AllowShared,
+  Clamp,
+  EnforceRange,
+} from "@t15i/webspecs/webidl";
 import { Annotated, DOMString, Long, UnsignedLong } from "lib";
+import { getAnnotatedId } from "lib/Annotated";
+
+/**
+ * Every extended attribute shipped by \@t15i/webspecs is currently
+ * valueless, so a test-only one stands in for the takes-an-argument
+ * form (e.g. `[MaxLength=4]`).
+ */
+const MaxLength = "maxLength";
+declare module "@t15i/webspecs/webidl" {
+  interface TypeExtendedAttributes {
+    [MaxLength]?: number;
+  }
+}
 
 describe("Annotated - creation", () => {
   test("exposes the inner Type on the produced Type", () => {
@@ -50,6 +72,22 @@ describe("Annotated - conversion (smoke)", () => {
   });
 });
 
+describe("Annotated - id", () => {
+  test("renders a valueless attribute as its bare name", () => {
+    expect(getAnnotatedId({ [Clamp]: null }, Long)).toBe("[Clamp] long");
+  });
+
+  test("renders an attribute that has a value as 'Name=value'", () => {
+    expect(getAnnotatedId({ [MaxLength]: 4 }, Long)).toBe("[MaxLength=4] long");
+  });
+
+  test("orders attributes lexicographically, not in authoring order", () => {
+    expect(
+      getAnnotatedId({ [AllowShared]: null, [AllowResizable]: null }, Long),
+    ).toBe("[AllowResizable AllowShared] long");
+  });
+});
+
 describe("Annotated - caching", () => {
   test("returns the cached Type when called again with the same attributes and inner Type", () => {
     expect(Annotated({ [Clamp]: null }, Long)).toBe(
@@ -60,6 +98,20 @@ describe("Annotated - caching", () => {
   test("returns a different Type when the attribute keys differ", () => {
     expect(Annotated({ [Clamp]: null }, UnsignedLong)).not.toBe(
       Annotated({ [EnforceRange]: null }, UnsignedLong),
+    );
+  });
+
+  test("returns a different Type when the same attribute carries a different value", () => {
+    expect(Annotated({ [MaxLength]: 4 }, DOMString)).not.toBe(
+      Annotated({ [MaxLength]: 8 }, DOMString),
+    );
+  });
+
+  test("returns the cached Type when an equal attribute set is written in a different order", () => {
+    expect(
+      Annotated({ [AllowShared]: null, [AllowResizable]: null }, DOMString),
+    ).toBe(
+      Annotated({ [AllowResizable]: null, [AllowShared]: null }, DOMString),
     );
   });
 });
