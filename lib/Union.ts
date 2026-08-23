@@ -66,15 +66,15 @@ class FlattenedMemberTypesImpl
 
 export function Union<Ts extends readonly Type[]>(
   ...memberTypes: Ts
-): UnionType<Ts[number]> {
+): UnionType<[...Ts]> {
   const id = getUnionId(memberTypes);
 
   if (typeRegistry.defined(id)) {
-    return typeRegistry.get(id)! as UnionType<Ts[number]>;
+    return typeRegistry.get(id)! as UnionType<[...Ts]>;
   }
 
   const UnionT = Object.defineProperties(
-    function Union(this: UnionType<Ts[number]> | void, value: unknown) {
+    function Union(this: UnionType<[...Ts]> | void, value: unknown) {
       return asUnion.call(getContextType(this, UnionT), value);
     },
     {
@@ -96,7 +96,7 @@ export function Union<Ts extends readonly Type[]>(
         configurable: true,
       },
     },
-  ) as UnionType<Ts[number]>;
+  ) as UnionType<[...Ts]>;
 
   try {
     validateUnionMemberTypes(UnionT);
