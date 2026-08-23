@@ -7,14 +7,22 @@ import {
 import { getContextType } from "./getContextType";
 import { typeRegistry } from "./registry";
 
+function getExtendedAttributeName(key: string): string {
+  return key.replace(/^./u, (first) => first.toUpperCase());
+}
+
 export function getAnnotatedId(
   extendedAttributes: TypeExtendedAttributes,
   innerType: Type,
 ): string {
-  const parts = Object.getOwnPropertySymbols(extendedAttributes).map(
-    (s) => s.description!,
-  );
-  return `[${parts.join(", ")}] ${typeRegistry.getId(innerType)}`;
+  const xattrs = Object.keys(extendedAttributes)
+    .map((key) => {
+      const name = getExtendedAttributeName(key);
+      const value = (extendedAttributes as Record<string, unknown>)[key];
+      return value === null ? name : `${name}=${value}`;
+    })
+    .sort();
+  return `[${xattrs.join(" ")}] ${typeRegistry.getId(innerType)}`;
 }
 
 export function Annotated<T extends Type>(
