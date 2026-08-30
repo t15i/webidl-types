@@ -31,5 +31,5 @@ export function FrozenArray<T extends Type>(T: T): FrozenArrayType<T> {
     },
   ) as FrozenArrayType<T>;
 
-  return typeRegistry.define(id, FrozenArrayT);
+  return typeRegistry.define(id, FrozenArrayT, FROZEN_ARRAY_TYPE_NAME);
 }

@@ -31,5 +31,5 @@ export function Sequence<T extends Type>(T: T): SequenceType<T> {
     },
   ) as SequenceType<T>;
 
-  return typeRegistry.define(id, SequenceT);
+  return typeRegistry.define(id, SequenceT, SEQUENCE_TYPE_NAME);
 }

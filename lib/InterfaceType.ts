@@ -1,5 +1,7 @@
 import {
   asInterfaceType,
+  InterfaceObject,
+  INTERFACE_TYPE_NAME,
   type InterfaceType as InterfaceTypeSpec,
 } from "@t15i/webspecs/webidl";
 import { getContextType } from "./getContextType";
@@ -8,7 +10,7 @@ import { typeRegistry } from "./registry";
 export function getInterfaceTypeId(
   Ctor: new (...args: never[]) => unknown,
 ): string {
-  return Ctor.name;
+  return InterfaceObject.getInterfaceOf(Ctor)?.identifier ?? Ctor.name;
 }
 
 export function InterfaceType<T>(
@@ -33,5 +35,5 @@ export function InterfaceType<T>(
     },
   ) as InterfaceTypeSpec<T>;
 
-  return typeRegistry.define(id, InterfaceT);
+  return typeRegistry.define(id, InterfaceT, INTERFACE_TYPE_NAME);
 }

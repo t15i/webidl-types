@@ -45,7 +45,7 @@ export function Record<K extends RecordKeyType, V extends Type>(
 
   try {
     validateRecordKeyType(K);
-    return typeRegistry.define(id, RecordKV);
+    return typeRegistry.define(id, RecordKV, RECORD_TYPE_NAME);
   } catch (e) {
     throw TypeError(`Failed to create type ${id}`, { cause: e });
   }

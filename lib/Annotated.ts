@@ -40,12 +40,6 @@ export function Annotated<T extends Type>(
       return innerType.call(getContextType(this, AnnotatedT), value);
     },
     {
-      name: {
-        value: innerType.name,
-        writable: false,
-        enumerable: false,
-        configurable: true,
-      },
       extendedAttributes: {
         value: { ...extendedAttributes },
         writable: false,
@@ -63,7 +57,7 @@ export function Annotated<T extends Type>(
 
   try {
     validateAnnotatedInnerType(innerType);
-    return typeRegistry.define(id, AnnotatedT);
+    return typeRegistry.define(id, AnnotatedT, innerType.name);
   } catch (e) {
     throw TypeError(`Failed to create type ${id}`, { cause: e });
   }
