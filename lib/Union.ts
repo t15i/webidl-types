@@ -7,6 +7,7 @@ import {
   NUMERIC_TYPE_NAME,
   NUMERIC_TYPE_NAMES,
   STRING_TYPE_NAME,
+  UNION_TYPE_NAME,
   STRING_TYPE_NAMES,
   validateFlattenedMemberTypes,
   validateNumberOfNullableMemberTypes,
@@ -102,7 +103,7 @@ export function Union<Ts extends readonly Type[]>(
     validateUnionMemberTypes(UnionT);
     validateFlattenedMemberTypes(UnionT);
     validateNumberOfNullableMemberTypes(UnionT);
-    return typeRegistry.define(id, UnionT);
+    return typeRegistry.define(id, UnionT, UNION_TYPE_NAME);
   } catch (e) {
     throw TypeError(`Failed to create type ${id}`, { cause: e });
   }

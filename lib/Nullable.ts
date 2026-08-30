@@ -34,7 +34,7 @@ export function Nullable<T extends Type>(innerType: T): NullableType<T> {
 
   try {
     validateNullableInnerType(innerType);
-    return typeRegistry.define(id, NullableT);
+    return typeRegistry.define(id, NullableT, NULLABLE_TYPE_NAME);
   } catch (e) {
     throw TypeError(`Failed to create type ${id}`, { cause: e });
   }

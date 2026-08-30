@@ -4,9 +4,17 @@ export class TypeRegistry {
   readonly #byId = new Map<string, Type>();
   readonly #idByType = new Map<Type, string>();
 
-  define<T extends Type>(id: string, T: T): T {
+  define<T extends Type>(id: string, T: T, name: string = id): T {
     const cached = this.#byId.get(id);
     if (cached) return cached as T;
+
+    Object.defineProperty(T, "name", {
+      value: name,
+      writable: false,
+      enumerable: false,
+      configurable: true,
+    });
+
     this.#byId.set(id, T);
     this.#idByType.set(T, id);
     return T;
